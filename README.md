@@ -6,3 +6,10 @@ C# terminal app that takes a pdf file containing handwritten notes (eg lecture n
  * unity web apps
 
 and outputs a html file displaying the lecture notes with the above dynamic content embedded.
+
+# Example usage
+
+```
+dotnet run lecture.pdf
+```
+
