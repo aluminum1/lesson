@@ -79,23 +79,44 @@ public class Program
         Page curPage;
         var overlays = new StringBuilder(); // holds <foreignObject> inserts
 
-
-        html.AppendLine("<!DOCTYPE html>");
-        html.AppendLine("<html>");
-        html.AppendLine("<head>");
-        html.AppendLine($"    <title>{filename}</title>");
-        html.AppendLine("    <style>");
-        html.AppendLine("       .pageholder { background-color: #bbbbbb; padding: 5px;}");
-        html.AppendLine("       .page { padding: 0; position: relative;}");
-        html.AppendLine("       body { margin: 0; padding: 0; }");
-        html.AppendLine("       svg { background-color: #ffffff; border: 1px solid #000000; }");
-        html.AppendLine("       video { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }");
-        html.AppendLine("       iframe { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }");
-        html.AppendLine("    </style>");
-        html.AppendLine("</head>");
-        html.AppendLine("<body>");
-
-
+        string initialHTML = $$$"""
+                                <!DOCTYPE html>
+                                <html>
+                                <head>
+                                   <title>{filename}</title>
+                                   <style>
+                                      .pageholder { background-color: #bbbbbb; padding: 5px;}
+                                      .page { padding: 0; position: relative;}
+                                      body { margin: 0; padding: 0; }
+                                      svg { background-color: #ffffff; border: 1px solid #000000; }
+                                      video { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }
+                                      iframe { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }
+                                   </style>
+                                </head>
+                                <body>
+                                    <script>
+                                    const observer = new IntersectionObserver((entries) => {
+                                        entries.forEach(entry => {
+                                            if (entry.isIntersecting) {
+                                             console.log("target is visible. Asked main loop to resume.");
+                                             entry.target.contentWindow.postMessage("resume");
+                                            } else {
+                                             console.log("target is not visible. Asked main loop to pause.");
+                                             entry.target.contentWindow.postMessage("pause");
+                                            }});
+                                     });
+                                
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        var demos = document.getElementsByClassName("unity-demo");   
+                                        for (let i = 0; i < demos.length; i++) 
+                                        {
+                                            observer.observe(demos[i]);
+                                        }
+                                    });
+                                    </script>   
+                                """;
+        html.AppendLine(initialHTML);
+       
         for (int pageNumber = 1; pageNumber <= document.NumberOfPages; pageNumber++)
         {
             curPage = document.GetPage(pageNumber);

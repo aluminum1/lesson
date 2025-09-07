@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>lecture</title>
-    <style>
-       .pageholder { background-color: #bbbbbb; padding: 5px;}
-       .page { padding: 0; position: relative;}
-       body { margin: 0; padding: 0; }
-       svg { background-color: #ffffff; border: 1px solid #000000; }
-       video { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }
-       iframe { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }
-    </style>
+   <title>{filename}</title>
+   <style>
+      .pageholder { background-color: #bbbbbb; padding: 5px;}
+      .page { padding: 0; position: relative;}
+      body { margin: 0; padding: 0; }
+      svg { background-color: #ffffff; border: 1px solid #000000; }
+      video { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }
+      iframe { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }
+   </style>
 </head>
 <body>
+    <script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+             console.log("target is visible. Asked main loop to resume.");
+             entry.target.contentWindow.postMessage("resume");
+            } else {
+             console.log("target is not visible. Asked main loop to pause.");
+             entry.target.contentWindow.postMessage("pause");
+            }});
+     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        var demos = document.getElementsByClassName("unity-demo");   
+        for (let i = 0; i < demos.length; i++) 
+        {
+            observer.observe(demos[i]);
+        }
+    });
+    </script>   
 <div class='pageholder'>
 <div class='page' id='page-1'>
     <svg width='612px' height='803.25px' viewBox='0 0 612 803.25'>
