@@ -13,3 +13,4 @@ and outputs a html file displaying the lecture notes with the above dynamic cont
 dotnet run lecture.pdf
 ```
 
+will produce a standalone [index.html](hello.cs) file (no web server needed) with the content loaded. 
