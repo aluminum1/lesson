@@ -7,5 +7,5 @@ test.html
 .idea/
 *.iml
 .vs/lesson/xs
-.Folder.DotSettings.user
-.lesson.sln.DotSettings.user
+Folder.DotSettings.user
+lesson.sln.DotSettings.user
