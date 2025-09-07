@@ -194,7 +194,7 @@ public class Program
                     double height = boundingRect.Height;
 
                     string line = $"""
-                                        <iframe src="{location}" style="left: {left}px; top: {top}px; width: {width}px; height: {height}px;"
+                                        <iframe src="{location}" class="unity-demo" style="left: {left}px; top: {top}px; width: {width}px; height: {height}px;"
                                         allow="fullscreen; autoplay; clipboard-read; clipboard-write; gamepad; xr-spatial-tracking">
                                         </iframe>
                                    """;

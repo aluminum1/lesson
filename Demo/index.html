@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Demo2</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+  </head>
+  <body>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/Demo.json", {onProgress: UnityProgress});
+
+      window.addEventListener("message", (evt) => {
+        if (evt.data == "pause") {
+          console.log("Received pause message.");
+          gameInstance.Module.pauseMainLoop();
+        }
+      
+        if (evt.data == "resume") {
+          console.log("Received resume message.");
+          gameInstance.Module.resumeMainLoop();
+        }
+      });
+    </script>
+
+    <div class="webgl-content">
+      <div id="gameContainer"> </div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+    </div>
+  </body>
+</html>
