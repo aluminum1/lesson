@@ -90,6 +90,7 @@ public class Program
         html.AppendLine("       body { margin: 0; padding: 0; }");
         html.AppendLine("       svg { background-color: #ffffff; border: 1px solid #000000; }");
         html.AppendLine("       video { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }");
+        html.AppendLine("       iframe { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }");
         html.AppendLine("    </style>");
         html.AppendLine("</head>");
         html.AppendLine("<body>");
@@ -104,11 +105,7 @@ public class Program
             html.AppendLine($"    <svg width='{curPage.Width}px' height='{curPage.Height}px' viewBox='0 0 {curPage.Width} {curPage.Height}'>");
 
             wordsOnPage = curPage.GetWords();
-            Console.WriteLine($"Page {pageNumber}: {wordsOnPage.Count()} words");
-            foreach (Word word in wordsOnPage)
-            {
-                Console.WriteLine($"Word found:    {word.Text}");
-            }
+
 
             for (int pathIndex = 0; pathIndex < curPage.ExperimentalAccess.Paths.Count; pathIndex++)
             {
@@ -185,6 +182,22 @@ public class Program
                                         <video src="{text}" controls playsinline style="left: {left}px; top: {top}px; width: {width}px; height: {height}px;">
                                         </video>
                                     """;
+                    overlays.AppendLine(line);
+                }
+                if (text.StartsWith("unity:") && (word.BoundingBox.IntersectsWith(boundingRect)))
+                {
+                    string location = text.Substring(6);
+                    Console.WriteLine($"Found unity demo: {location}");
+                    double left = boundingRect.Left;
+                    double top = curPage.Height - boundingRect.Top;
+                    double width = boundingRect.Width;
+                    double height = boundingRect.Height;
+
+                    string line = $"""
+                                        <iframe src="{location}" style="left: {left}px; top: {top}px; width: {width}px; height: {height}px;"
+                                        allow="fullscreen; autoplay; clipboard-read; clipboard-write; gamepad; xr-spatial-tracking">
+                                        </iframe>
+                                   """;
                     overlays.AppendLine(line);
                 }
             }
