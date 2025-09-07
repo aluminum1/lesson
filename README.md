@@ -14,4 +14,4 @@ via email etc as you would a pdf, but it now contains the interactive video and 
 dotnet run lecture.pdf
 ```
 
-will produce a standalone [index.html](https://aluminum1.github.io/lesson/example/index.html) file (no web server needed) with the content loaded. 
+will produce a standalone [index.html](https://aluminum1.github.io/lesson/index.html) file (no web server needed) with the content loaded. 
