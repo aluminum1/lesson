@@ -85,12 +85,38 @@ public class Program
                                 <head>
                                    <title>{filename}</title>
                                    <style>
-                                      .pageholder { background-color: #bbbbbb; padding: 5px;}
-                                      .page { padding: 0; position: relative;}
-                                      body { margin: 0; padding: 0; }
-                                      svg { background-color: #ffffff; border: 1px solid #000000; }
-                                      video { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }
-                                      iframe { position: absolute; object-fit: contain; background-color: #222222; border: 1px solid #000000; }
+                                body {
+                                  margin: 0;
+                                  padding: 0;
+                                  background-color: #999;   /* gray workspace background */
+                                }
+                                
+                                .pageholder {
+                                  display: flex;
+                                  flex-direction: column;   /* stack pages vertically */
+                                  align-items: center;      /* center each page horizontally */
+                                  width: 100%;
+                                  padding: 5px 0;
+                                  box-sizing: border-box;
+                                }
+                                
+                                .page {
+                                  background: white;        /* white paper */
+                                  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+                                  display: flex;
+                                  justify-content: center;
+                                  position: relative;
+                                }
+                                
+                                .page svg {
+                                  width: 100%;              /* scale to browser width */
+                                  height: auto;             /* keep aspect ratio */
+                                  display: block;
+                                  border: 1px solid #000;
+                                  background: white;        /* ensure white background */
+                                  }
+                                      video { position: absolute; object-fit: contain; margin: 0px; padding: 0px; border-style: none; }
+                                      iframe { position: absolute; object-fit: contain; margin: 0px; padding: 0px; border-style: none;}
                                    </style>
                                 </head>
                                 <body>
@@ -198,9 +224,15 @@ public class Program
                     double top = curPage.Height - boundingRect.Top;
                     double width = boundingRect.Width;
                     double height = boundingRect.Height;
+                    
+                    double leftPercent = left / curPage.Width * 100;
+                    double topPercent = top / curPage.Height * 100;
+                    double widthPercent = width / curPage.Width * 100;
+                    double heightPercent = height / curPage.Height * 100;
 
                     string line = $"""
-                                        <video src="{text}" controls playsinline style="left: {left}px; top: {top}px; width: {width}px; height: {height}px;">
+                                        <video src="{text}" controls playsinline style="left: {leftPercent}%; top: {topPercent}%; width: {widthPercent}%; 
+                                    height: {heightPercent}%;">
                                         </video>
                                     """;
                     overlays.AppendLine(line);
@@ -214,9 +246,16 @@ public class Program
                     double width = boundingRect.Width;
                     double height = boundingRect.Height;
 
+                    double leftPercent = left / curPage.Width * 100;
+                    double topPercent = top / curPage.Height * 100;
+                    double widthPercent = width / curPage.Width * 100;
+                    double heightPercent = height / curPage.Height * 100;
+                    
+
                     string line = $"""
-                                        <iframe src="{location}" class="unity-demo" style="left: {left}px; top: {top}px; width: {width}px; height: {height}px;"
-                                        allow="fullscreen; autoplay; clipboard-read; clipboard-write; gamepad; xr-spatial-tracking">
+                                        <iframe src="{location}" class="unity-demo" style="left: {leftPercent}%; top: {topPercent}%; width: {widthPercent}%; 
+                                        height: {heightPercent}%;"
+                                        allow="fullscreen; autoplay; ">
                                         </iframe>
                                    """;
                     overlays.AppendLine(line);
